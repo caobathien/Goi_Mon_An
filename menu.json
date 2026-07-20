@@ -26,7 +26,6 @@
   { "id": "m25", "name": "Trà đào", "price": 5000, "category": "Nước ngọt", "img": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&q=80" },
   { "id": "m26", "name": "Cơm", "price": 1000, "category": "Gọi thêm", "img": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&q=80" },
   { "id": "m27", "name": "Nước", "price": 0, "category": "Gọi thêm", "img": "https://images.unsplash.com/photo-1559839914-17aae19cb549?w=500&q=80" },
-  { "id": "m28", "name": "Khăn ướt", "price": 5000, "category": "Gọi thêm", "img": "https://images.unsplash.com/photo-1584824388147-3bd4cda2402e?w=500&q=80" },
   { "id": "m29", "name": "Chân giò", "price": 30000, "category": "Đồ nhậu", "img": "https://images.unsplash.com/photo-1627308595229-7830b5c9660c?w=500&q=80" },
   { "id": "m30", "name": "Chân giò sốt cay", "price": 20000, "category": "Đồ nhậu", "img": "https://images.unsplash.com/photo-1562967914-608f82629710?w=500&q=80" }
 ]
