@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Gọi Món</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar / Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="ri-restaurant-line"></i>
+                <span>Đạt</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" id="nav-tables" onclick="showTablesView()">
+                    <i class="ri-layout-grid-line"></i> Bàn
+                </li>
+                <li id="nav-reports" onclick="showReportsView()">
+                    <i class="ri-bar-chart-box-line"></i> Báo cáo
+                </li>
+                <li id="nav-settings" onclick="showSettingsView()">
+                    <i class="ri-settings-4-line"></i> Cài đặt
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h1 id="page-title">Sơ đồ bàn</h1>
+                <div class="user-profile">
+                    <button id="mobile-cart-btn" class="btn btn-outline" onclick="toggleMobileCart()" style="position: relative; padding: 0.5rem 0.75rem;">
+                        <i class="ri-shopping-cart-2-line" style="font-size: 1.2rem;"></i>
+                        <span id="mobile-cart-count" class="badge" style="position: absolute; top: -5px; right: -5px; padding: 2px 5px; font-size: 0.65rem;">0</span>
+                    </button>
+                    <div class="time-display" id="current-time">00:00</div>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0d9488&color=fff" alt="Admin" class="avatar">
+                </div>
+            </header>
+
+            <!-- Workspace -->
+            <div class="workspace">
+                
+                <!-- Left Pane: View 1 (Tables) -->
+                <div id="tables-view" class="view-pane active-view">
+                    <div class="table-legend">
+                        <div class="legend-item"><span class="dot dot-empty"></span> <span data-i18n="legend-empty">Trống</span></div>
+                        <div class="legend-item"><span class="dot dot-open"></span> <span data-i18n="legend-open">Đang phục vụ</span></div>
+                    </div>
+                    <div class="tables-grid" id="tables-container">
+                        <!-- Render via JS -->
+                    </div>
+                </div>
+
+                <!-- Left Pane: View 2 (Menu) -->
+                <div id="menu-view" class="view-pane hidden-view">
+                    <div class="menu-header">
+                        <button class="btn btn-outline" onclick="showTablesView()"><i class="ri-arrow-left-line"></i> <span data-i18n="btn-back">Quay lại</span></button>
+                        <div class="categories" id="category-container">
+                            <button class="category-btn active" data-i18n="menu-all">Tất cả</button>
+                            <button class="category-btn" data-i18n="menu-donhau">Đồ nhậu</button>
+                            <button class="category-btn" data-i18n="menu-ruoubia">Rượu bia</button>
+                            <button class="category-btn" data-i18n="menu-nuocngot">Nước ngọt</button>
+                            <button class="category-btn" data-i18n="menu-goithem">Gọi thêm</button>
+                        </div>
+                    </div>
+                    <div class="menu-grid" id="menu-container">
+                        <!-- Render via JS -->
+                    </div>
+                </div>
+
+                <!-- Left Pane: View 3 (Reports) -->
+                <div id="reports-view" class="view-pane hidden-view">
+                    <div class="reports-header">
+                        <h2 data-i18n="page-title-reports-header">Báo cáo Doanh thu</h2>
+                        <div class="date-filter" data-i18n="reports-date">Tổng thời gian</div>
+                    </div>
+                    <div class="reports-summary">
+                        <div class="summary-card">
+                            <div class="icon-box" style="background: #ecfdf5; color: #10b981;"><i class="ri-money-dollar-circle-line"></i></div>
+                            <div class="summary-info">
+                                <span data-i18n="reports-total-revenue">Tổng Doanh Thu</span>
+                                <h3 id="report-total-revenue">0 ₫</h3>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="icon-box" style="background: #fef3c7; color: #d97706;"><i class="ri-shopping-bag-3-line"></i></div>
+                            <div class="summary-info">
+                                <span data-i18n="reports-total-orders">Đơn Hoàn Tất</span>
+                                <h3 id="report-total-orders">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reports-list">
+                        <h3 data-i18n="reports-history">Lịch sử giao dịch</h3>
+                        <div class="transaction-list" id="transaction-list">
+                            <!-- Render via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-view" class="view-pane hidden-view">
+                    <div class="reports-header">
+                        <h2 data-i18n="page-title-settings">Cài đặt hệ thống</h2>
+                    </div>
+                    
+                    <div class="settings-container">
+                        <div class="setting-group">
+                            <div class="setting-info">
+                                <h3 data-i18n="settings-lang-title">Ngôn ngữ / Language</h3>
+                                <p data-i18n="settings-lang-desc">Chọn ngôn ngữ hiển thị cho phần mềm</p>
+                            </div>
+                            <div class="setting-action">
+                                <select id="lang-select" onchange="changeLanguage(this.value)">
+                                    <option value="vi">Tiếng Việt</option>
+                                    <option value="en">English</option>
+                                    <option value="ko">한국어 (Korean)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <div class="setting-info">
+                                <h3 data-i18n="settings-tz-title">Múi giờ / Timezone</h3>
+                                <p data-i18n="settings-tz-desc">Chọn múi giờ hiển thị đồng hồ</p>
+                            </div>
+                            <div class="setting-action">
+                                <select id="tz-select" onchange="changeTimezone(this.value)">
+                                    <option value="Asia/Ho_Chi_Minh">🇻🇳 Việt Nam (UTC+7)</option>
+                                    <option value="Asia/Seoul">🇰🇷 Hàn Quốc (UTC+9)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <div class="setting-info">
+                                <h3 data-i18n="settings-reset-title">Xóa dữ liệu (Hard Reset)</h3>
+                                <p data-i18n="settings-reset-desc">Xóa toàn bộ bàn, hóa đơn và lịch sử. Không thể hoàn tác.</p>
+                            </div>
+                            <div class="setting-action">
+                                <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="resetAllData()" data-i18n="btn-reset">Khôi phục gốc</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <div class="mobile-cart-overlay" id="mobile-cart-overlay" onclick="toggleMobileCart()"></div>
+        <!-- Right Pane: Cart / Order Details -->
+        <aside class="cart-pane glassmorphism" id="cart-pane">
+            <div class="cart-header">
+                <h2><span data-i18n="cart-title">Hóa Đơn</span> <span class="badge" id="current-table-badge">Chưa chọn bàn</span></h2>
+                <div class="order-id" id="current-order-id">#---</div>
+            </div>
+            
+            <div class="cart-items" id="cart-items-container">
+                <div class="empty-cart">
+                    <i class="ri-shopping-cart-line"></i>
+                    <p data-i18n="cart-empty-init">Vui lòng chọn bàn để gọi món</p>
+                </div>
+                <!-- Render items via JS -->
+            </div>
+
+            <div class="cart-footer">
+                <button class="btn btn-block btn-sync unsynced" id="btn-sync" onclick="syncOrder()" style="display: none; margin-bottom: 1rem;">
+                    <i class="ri-send-plane-fill"></i> <span id="sync-text">Chưa gửi bếp</span>
+                </button>
+                <div class="summary-row">
+                    <span data-i18n="subtotal">Tạm tính</span>
+                    <span id="subtotal">0 ₫</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span data-i18n="total">Tổng tiền</span>
+                    <span class="total-amount" id="total-amount">0 ₫</span>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" id="btn-checkout" onclick="checkoutOrder()" disabled>
+                    <span data-i18n="btn-checkout">Thanh Toán</span>
+                </button>
+            </div>
+        </aside>
+
+    </div>
+    
+    <!-- Alert/Confirm Modal -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div class="modal-body" style="padding: 2.5rem 1.5rem;">
+                <i class="ri-error-warning-fill" style="font-size: 4rem; color: var(--warning); margin-bottom: 1rem; display: block;"></i>
+                <h3 id="confirm-modal-title" style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.4rem;">Khoan đã!</h3>
+                <p id="confirm-modal-message" style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem;">Bạn có món <b>CHƯA GỬI BẾP!</b><br>Bạn vẫn muốn tiếp tục thanh toán chứ?</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <button class="btn btn-outline-danger" onclick="closeConfirmModal()" data-i18n="btn-cancel">Hủy</button>
+                    <button class="btn btn-primary" id="confirm-modal-ok-btn" onclick="handleConfirmOk()">Vẫn tiếp tục</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal (Thay thế alert mặc định) -->
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div class="modal-body" style="padding: 2.5rem 1.5rem;">
+                <i class="ri-checkbox-circle-fill" id="alert-icon" style="font-size: 4rem; color: var(--success); margin-bottom: 1rem; display: block;"></i>
+                <h3 id="alert-title" style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.4rem;">Thành công</h3>
+                <p id="alert-message" style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem;">Nội dung thông báo</p>
+                <button class="btn btn-primary" style="width: 100%" onclick="closeAlertModal()" data-i18n="btn-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thanh Toán Bàn <span id="modal-table-id"></span></h2>
+                <button class="btn-close" onclick="closeCheckoutModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="checkout-amount" id="modal-total-amount">0 ₫</div>
+                
+                <div class="payment-methods">
+                    <button class="pay-method-btn active" onclick="switchPaymentMethod('cash')" id="btn-method-cash">
+                        <i class="ri-money-dollar-circle-line"></i> <span data-i18n="payment-cash">Tiền mặt</span>
+                    </button>
+                    <button class="pay-method-btn" onclick="switchPaymentMethod('qr')" id="btn-method-qr">
+                        <i class="ri-qr-code-line"></i> <span data-i18n="payment-qr">Quét mã QR</span>
+                    </button>
+                </div>
+                
+                <!-- Cash Panel -->
+                <div class="payment-panel active" id="panel-cash">
+                    <p class="text-muted text-center" style="margin-top: 1rem;" data-i18n="payment-cash-desc">Nhận tiền mặt từ khách hàng và thối lại tiền thừa (nếu có).</p>
+                </div>
+
+                <!-- QR Panel -->
+                <div class="payment-panel" id="panel-qr">
+                    <div class="qr-container">
+                        <img src="" alt="QR Code" id="vietqr-img">
+                        <p class="text-muted" style="margin-top: 0.5rem;" data-i18n="payment-qr-desc">Sử dụng App Ngân hàng để quét mã VietQR</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-danger" onclick="closeCheckoutModal()" data-i18n="btn-cancel">Hủy</button>
+                <button class="btn btn-primary" onclick="confirmPayment()" data-i18n="btn-finish">Hoàn tất</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
