@@ -385,10 +385,71 @@ function syncOrder() {
     const table = tables.find(t => t.id === currentActiveTable);
     const order = orders.find(o => o.id === table.currentOrderId);
     if(order && !order.isSynced) {
+        const itemsWithNotes = order.items.filter(item => !item.isSynced && item.note && item.note.trim() !== '');
+        
+        if (itemsWithNotes.length > 0) {
+            let notesHtml = itemsWithNotes.map(item => `<li><b>${item.name}:</b> ${item.note}</li>`).join('');
+            showConfirmModal(
+                tDict()['alert-wait'] || "Khoan đã!", 
+                (tDict()['alert-notes'] || "Các món sau có ghi chú đặc biệt:<br><ul style='text-align: left; margin-top: 10px; color: var(--danger); font-size: 0.95rem;'>") + notesHtml + "</ul><br>" + (tDict()['alert-notes-confirm'] || "Bạn có chắc chắn muốn gửi bếp?"), 
+                tDict()['btn-send'] || "Gửi bếp", 
+                () => { processSyncOrder(); }
+            );
+            return;
+        }
+        processSyncOrder();
+    }
+}
+
+function processSyncOrder() {
+    if (!currentActiveTable) return;
+    const table = tables.find(t => t.id === currentActiveTable);
+    const order = orders.find(o => o.id === table.currentOrderId);
+    if(order && !order.isSynced) {
         order.isSynced = true;
         order.items.forEach(item => item.isSynced = true);
         saveData();
         renderCart();
+    }
+}
+
+let currentNoteItemId = null;
+
+function openNoteModal(itemId) {
+    if (!currentActiveTable) return;
+    const table = tables.find(t => t.id === currentActiveTable);
+    const order = orders.find(o => o.id === table.currentOrderId);
+    if (order) {
+        const item = order.items.find(i => i.id === itemId);
+        if (item) {
+            currentNoteItemId = itemId;
+            document.getElementById('note-item-name').innerText = item.name;
+            document.getElementById('note-textarea').value = item.note || '';
+            document.getElementById('note-modal').classList.add('active');
+            setTimeout(() => { document.getElementById('note-textarea').focus(); }, 100);
+        }
+    }
+}
+
+function closeNoteModal() {
+    document.getElementById('note-modal').classList.remove('active');
+    currentNoteItemId = null;
+}
+
+function saveNote() {
+    if (!currentActiveTable || !currentNoteItemId) return;
+    const table = tables.find(t => t.id === currentActiveTable);
+    const order = orders.find(o => o.id === table.currentOrderId);
+    if (order) {
+        const item = order.items.find(i => i.id === currentNoteItemId);
+        if (item) {
+            item.note = document.getElementById('note-textarea').value;
+            item.isSynced = false;
+            order.isSynced = false;
+            saveData();
+            renderCart();
+            closeNoteModal();
+        }
     }
 }
 
@@ -624,6 +685,7 @@ const translations = {
         'menu-ruoubia': 'Rượu bia',
         'menu-nuocngot': 'Nước ngọt',
         'menu-goithem': 'Gọi thêm',
+        'menu-monmoi': 'Món mới',
         'settings-lang-title': 'Ngôn ngữ / Language',
         'settings-lang-desc': 'Chọn ngôn ngữ hiển thị cho phần mềm',
         'settings-reset-title': 'Xóa dữ liệu (Hard Reset)',
@@ -692,6 +754,7 @@ const translations = {
         'menu-ruoubia': 'Alcohol',
         'menu-nuocngot': 'Soft Drinks',
         'menu-goithem': 'Extras',
+        'menu-monmoi': 'New Items',
         'settings-lang-title': 'Language',
         'settings-lang-desc': 'Select the display language for the software',
         'settings-reset-title': 'Hard Reset',
@@ -760,6 +823,7 @@ const translations = {
         'menu-ruoubia': '주류',
         'menu-nuocngot': '음료',
         'menu-goithem': '추가',
+        'menu-monmoi': '신메뉴',
         'settings-lang-title': '언어 / Language',
         'settings-lang-desc': '소프트웨어 표시 언어 선택',
         'settings-reset-title': '데이터 삭제 (Hard Reset)',
@@ -855,6 +919,7 @@ function applyLanguage() {
         else if (key === 'menu-ruoubia') rawCat = 'Rượu bia';
         else if (key === 'menu-nuocngot') rawCat = 'Nước ngọt';
         else if (key === 'menu-goithem') rawCat = 'Gọi thêm';
+        else if (key === 'menu-monmoi') rawCat = 'Món mới';
         renderMenu(rawCat);
     } else {
         renderMenu();
@@ -901,14 +966,29 @@ function renderCart() {
             ? `<span style="color: var(--danger); font-size: 0.7rem; margin-left: 6px; padding: 2px 6px; background: #ffe4e6; border-radius: 12px; font-weight: 600;" title="${tDict()['item-new-title'] || 'Món chưa gửi bếp'}"><i class="ri-error-warning-fill"></i> ${tDict()['item-new'] || 'Mới'}</span>` 
             : '';
         
+        const menuData = menuItems.find(m => m.id === item.id);
+        const imgSrc = menuData ? menuData.img : '';
+        const noteHtml = item.note 
+            ? `<div class="cart-item-note"><i class="ri-chat-quote-fill"></i><span>${item.note}</span></div>` 
+            : '';
+        const noteBtnClass = item.note ? 'note-btn has-note' : 'note-btn';
+        const noteBtnIcon = item.note ? 'ri-chat-quote-fill' : 'ri-edit-2-line';
+
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
-            <div class="cart-item-info">
-                <h4 style="display: flex; align-items: center;">${item.name} ${syncBadge}</h4>
-                <div class="price">${formatPrice(item.price)}</div>
+            <div style="display: flex; gap: 0.6rem; flex: 1; min-width: 0;">
+                ${imgSrc ? `<img src="${imgSrc}" style="width: 42px; height: 42px; border-radius: 8px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border);">` : ''}
+                <div class="cart-item-info" style="flex: 1; min-width: 0;">
+                    <h4 style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 4px;">${item.name} ${syncBadge}</h4>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                        <div class="price">${formatPrice(item.price)}</div>
+                        <button onclick="openNoteModal('${item.id}')" class="${noteBtnClass}"><i class="${noteBtnIcon}"></i> ${tDict()['btn-note'] || 'Ghi chú'}</button>
+                    </div>
+                    ${noteHtml}
+                </div>
             </div>
-            <div class="qty-controls">
+            <div class="qty-controls" style="align-self: flex-start; margin-top: 2px;">
                 <button class="qty-btn ${item.quantity === 1 ? 'danger' : ''}" onclick="updateQuantity('${item.id}', -1)">
                     <i class="ri-${item.quantity === 1 ? 'delete-bin-line' : 'subtract-line'}"></i>
                 </button>
@@ -950,6 +1030,7 @@ document.querySelectorAll('.category-btn').forEach(btn => {
         else if (key === 'menu-ruoubia') rawCat = 'Rượu bia';
         else if (key === 'menu-nuocngot') rawCat = 'Nước ngọt';
         else if (key === 'menu-goithem') rawCat = 'Gọi thêm';
+        else if (key === 'menu-monmoi') rawCat = 'Món mới';
         
         renderMenu(rawCat);
     });
