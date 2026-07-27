@@ -9,7 +9,7 @@
   { "id": "m8", "name": "Khoai tây chiên", "price": 10000, "category": "Đồ nhậu", "img": "img/z8084898924054_1ca5ebbf6a3e88c408ae688ebbdb02fb.jpg" },
   { "id": "m9", "name": "Chân gà bà tuyết", "price": 2000, "category": "Đồ nhậu", "img": "img/chan_ga_1784555360905.png" },
   { "id": "m10", "name": "Rượu", "price": 4500, "category": "Rượu bia", "img": "img/ruou_1784555370075.png" },
-  { "id": "m11", "name": "Bia", "price": 4500, "category": "Rượu bia", "img": "img/bia_1784555381474.png" },
+  { "id": "m11", "name": "Bia", "price": 4500, "category": "Rượu bia", "img": "img/z8088092997595_2704dbc36e1913bd95c65dedec695124.jpg" },
   { "id": "m12", "name": "Bia hơi", "price": 5000, "category": "Rượu bia", "img": "img/bia_1784555381474.png" },
   { "id": "m13", "name": "Bia hơi to", "price": 25000, "category": "Rượu bia", "img": "img/bia_1784555381474.png" },
   { "id": "m14", "name": "Rượu pha bò húc nhỏ", "price": 20000, "category": "Rượu bia", "img": "img/ruou_1784555370075.png" },
@@ -28,10 +28,14 @@
   { "id": "m27", "name": "Nước", "price": 0, "category": "Gọi thêm", "img": "https://images.unsplash.com/photo-1559839914-17aae19cb549?w=500&q=80" },
   { "id": "m29", "name": "Chân giò", "price": 30000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1627308595229-7830b5c9660c?w=500&q=80" },
   { "id": "m30", "name": "Chân giò cay", "price": 20000, "category": "Món mới", "img": "img/z8084898912775_558a7ce9b718d681fca96d72107c3d32.jpg" },
-  { "id": "m31", "name": "Gỏi tai heo", "price": 30000, "category": "Món mới", "img": "img/z8084898900332_ccac1a15169bc978b467fccb699b4136.jpg" },
+  { "id": "m31", "name": "Gỏi tai heo", "price": 20000, "category": "Món mới", "img": "img/z8084898900332_ccac1a15169bc978b467fccb699b4136.jpg" },
   { "id": "m32", "name": "Chân giò thường", "price": 30000, "category": "Món mới", "img": "img/z8084898896990_3418e7dfdc870ce0d29cfc3aea316d18.jpg" },
-  { "id": "m33", "name": "Đậu hũ mỡ hành", "price": 20000, "category": "Món mới", "img": "img/z8084898902145_0250f8054caaaa7d8a0cddc031ad217b.jpg" },
-  { "id": "m34", "name": "Khổ qua chà bông", "price": 30000, "category": "Món mới", "img": "img/z8084898906383_da12ef9f936bccdda317e8d74594f14a.jpg" },
-  { "id": "m35", "name": "Bắp chiên", "price": 10000, "category": "Món mới", "img": "img/z8084905093316_9338ba8571ab1244cce8f418268f7b81.jpg" },
-  { "id": "m36", "name": "Hến xúc bánh đa", "price": 25000, "category": "Món mới", "img": "img/z8084905099895_95208980f2b8257394f181afca7808dd.jpg" }
+  { "id": "m33", "name": "Đậu hũ mỡ hành", "price": 10000, "category": "Món mới", "img": "img/z8084898902145_0250f8054caaaa7d8a0cddc031ad217b.jpg" },
+  { "id": "m34", "name": "Khổ qua chà bông", "price": 10000, "category": "Món mới", "img": "img/z8084898906383_da12ef9f936bccdda317e8d74594f14a.jpg" },
+  { "id": "m35", "name": "Bắp xào", "price": 10000, "category": "Món mới", "img": "img/z8088093091567_f635f5e6fc43c254e4f422e397787d77.jpg" },
+  { "id": "m36", "name": "Hến xúc bánh đa", "price": 25000, "category": "Món mới", "img": "img/z8084905099895_95208980f2b8257394f181afca7808dd.jpg" },
+  { "id": "m37", "name": "치즈볼", "price": 10000, "category": "Món mới", "img": "img/z8084898894327_4876375145f35f351e4def7c5ee1d56b.jpg" },
+  { "id": "m38", "name": "Cánh gà sốt cay", "price": 20000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" },
+  { "id": "m39", "name": "Mì xào hải sản", "price": 10000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" },
+  { "id": "m40", "name": "Sườn xào chua ngọt", "price": 25000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" }
 ]

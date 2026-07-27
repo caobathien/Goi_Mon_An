@@ -8,11 +8,12 @@ let currentLang = localStorage.getItem('pos_lang') || 'vi';
 
 function formatPrice(price) {
     if (typeof currentLang !== 'undefined' && currentLang === 'ko') {
-        // Tỉ giá giả định: 1 VND = 0.05 KRW -> 20 VND = 1 KRW
-        const converted = Math.round(price / 20);
-        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(converted);
+        // Giá gốc trong menu.json được tính bằng KRW
+        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price);
     }
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    // Chuyển KRW sang VND (giả định 1 KRW = 20 VND)
+    const converted = price * 20;
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(converted);
 }
 
 // Initialize Data
@@ -513,8 +514,9 @@ function processCheckoutOrder() {
         const accountName = "AURA POS";
         const description = `Thanh toan ban ${table.id}`;
         
-        // Sử dụng API VietQR
-        const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${currentCheckoutTotal}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
+        // Sử dụng API VietQR (cần tính lại ra tiền VND để tạo mã QR)
+        const vndAmount = currentCheckoutTotal * 20;
+        const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${vndAmount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
         document.getElementById('vietqr-img').src = qrUrl;
         
         // Trạng thái mặc định là tab Tiền mặt
