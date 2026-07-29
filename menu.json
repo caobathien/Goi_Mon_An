@@ -3,7 +3,7 @@
   { "id": "m2", "name": "Bò khô", "price": 10000, "category": "Đồ nhậu", "img": "img/bo_kho_1784555277747.png" },
   { "id": "m3", "name": "Cơm gà", "price": 10000, "category": "Đồ nhậu", "img": "img/com_ga_1784555291315.png" },
   { "id": "m4", "name": "Lẩu thập cẩm", "price": 40000, "category": "Đồ nhậu", "img": "img/lau_1784555305730.png" },
-  { "id": "m5", "name": "Lem chua", "price": 10000, "category": "Đồ nhậu", "img": "img/nem_chua_1784555317416.png" },
+  { "id": "m5", "name": "Nem chua", "price": 10000, "category": "Gọi thêm", "img": "img/nemchua.png" },
   { "id": "m6", "name": "Cánh gà chiên nước mắm", "price": 20000, "category": "Đồ nhậu", "img": "img/z8084898918268_b02eb2ef928ded53bef574bfe13a24d7.jpg" },
   { "id": "m7", "name": "Đậu hũ chiên", "price": 10000, "category": "Đồ nhậu", "img": "img/dau_hu_chien_1784555339119.png" },
   { "id": "m8", "name": "Khoai tây chiên", "price": 10000, "category": "Đồ nhậu", "img": "img/z8084898924054_1ca5ebbf6a3e88c408ae688ebbdb02fb.jpg" },
@@ -37,5 +37,6 @@
   { "id": "m37", "name": "치즈볼", "price": 10000, "category": "Món mới", "img": "img/z8084898894327_4876375145f35f351e4def7c5ee1d56b.jpg" },
   { "id": "m38", "name": "Cánh gà sốt cay", "price": 20000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" },
   { "id": "m39", "name": "Mì xào hải sản", "price": 10000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" },
-  { "id": "m40", "name": "Sườn xào chua ngọt", "price": 25000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" }
+  { "id": "m40", "name": "Sườn xào chua ngọt", "price": 25000, "category": "Món mới", "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" },
+  { "id": "m41", "name": "Đĩa hoa quả", "price": 0, "options": [ { "name": "Nhỏ", "price": 20000 }, { "name": "Lớn", "price": 40000 } ], "category": "Món mới", "img": "img/duahau.png" }
 ]

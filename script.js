@@ -270,13 +270,29 @@ function renderMenu(category = 'Tất cả') {
     filteredMenu.forEach(item => {
         const div = document.createElement('div');
         div.className = 'menu-card';
-        div.onclick = () => addToCart(item);
+        
+        let optionsHtml = '';
+        if (item.options && item.options.length > 0) {
+            // Không click cả card nếu có tuỳ chọn
+            div.onclick = null;
+            optionsHtml = `<div class="menu-options" style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+                ${item.options.map((opt, idx) => `
+                    <button class="btn btn-outline" style="flex: 1; padding: 6px 4px; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-color: var(--primary); color: var(--primary);" onclick="event.stopPropagation(); addToCart({id: '${item.id}_${idx}', name: '${item.name} (${opt.name})', price: ${opt.price}})">
+                        <span style="font-weight: 600;">${opt.name}</span>
+                        <span style="font-size: 0.75rem;">${formatPrice(opt.price)}</span>
+                    </button>
+                `).join('')}
+            </div>`;
+        } else {
+            div.onclick = () => addToCart(item);
+        }
         
         div.innerHTML = `
             <img src="${item.img}" alt="${item.name}" class="menu-img">
             <div class="menu-info">
                 <h4>${item.name}</h4>
-                <p>${formatPrice(item.price)}</p>
+                ${item.options && item.options.length > 0 ? '' : `<p>${formatPrice(item.price)}</p>`}
+                ${optionsHtml}
             </div>
         `;
         container.appendChild(div);
