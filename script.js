@@ -8,12 +8,10 @@ let currentLang = localStorage.getItem('pos_lang') || 'vi';
 
 function formatPrice(price) {
     if (typeof currentLang !== 'undefined' && currentLang === 'ko') {
-        // Giá gốc trong menu.json được tính bằng KRW
         return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price);
     }
-    // Chuyển KRW sang VND (giả định 1 KRW = 20 VND)
-    const converted = price * 20;
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(converted);
+    // Luôn hiển thị tiền Won (KRW) nhưng theo định dạng số của tiếng Việt/tiếng Anh
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'KRW' }).format(price);
 }
 
 // Initialize Data
